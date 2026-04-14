@@ -15,7 +15,7 @@ class InventoryCubit extends Cubit<InventoryState> {
     AppLogger.info('Fetching inventory items...');
     emit(InventoryLoading());
     final result = await _getProductsUseCase(NoParams());
-    
+
     result.fold(
       (failure) {
         AppLogger.error('Failed to fetch inventory: ${failure.message}');
@@ -23,7 +23,8 @@ class InventoryCubit extends Cubit<InventoryState> {
       },
       (products) {
         _allProducts = products;
-        AppLogger.info('Inventory fetched successfully. Count: ${products.length}');
+        AppLogger.info(
+            'Inventory fetched successfully. Count: ${products.length}');
         emit(InventoryLoaded(products));
       },
     );
@@ -36,7 +37,9 @@ class InventoryCubit extends Cubit<InventoryState> {
       } else {
         final filtered = _allProducts.where((p) {
           final nameMatch = p.name.toLowerCase().contains(query.toLowerCase());
-          final genericMatch = p.genericName?.toLowerCase().contains(query.toLowerCase()) ?? false;
+          final genericMatch =
+              p.genericName?.toLowerCase().contains(query.toLowerCase()) ??
+                  false;
           return nameMatch || genericMatch;
         }).toList();
         emit(InventoryLoaded(filtered));

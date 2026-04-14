@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
-import 'package:pharma_pos/features/pos/domain/entities/cart_item.dart';
+
+import '../../domain/entities/cart_item.dart';
 
 class CartState extends Equatable {
   final List<CartItem> items;

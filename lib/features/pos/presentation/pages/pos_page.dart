@@ -1,10 +1,11 @@
 import 'package:motion_toast/motion_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pharma_pos/features/inventory/presentation/logic/inventory_cubit.dart';
-import 'package:pharma_pos/features/inventory/presentation/logic/inventory_state.dart';
-import 'package:pharma_pos/features/pos/presentation/logic/cart_cubit.dart';
-import 'package:pharma_pos/features/pos/presentation/logic/cart_state.dart';
+
+import '../../../inventory/presentation/logic/inventory_cubit.dart';
+import '../../../inventory/presentation/logic/inventory_state.dart';
+import '../logic/cart_cubit.dart';
+import '../logic/cart_state.dart';
 
 class POSPage extends StatefulWidget {
   const POSPage({super.key});
@@ -30,14 +31,17 @@ class _POSPageState extends State<POSPage> {
       listener: (context, state) {
         if (state.isSuccess) {
           MotionToast.success(
-            title: const Text('Sale Completed', style: TextStyle(fontWeight: FontWeight.bold)),
-            description: const Text('Local stock updated. Syncing in background.'),
+            title: const Text('Sale Completed',
+                style: TextStyle(fontWeight: FontWeight.bold)),
+            description:
+                const Text('Local stock updated. Syncing in background.'),
             toastAlignment: Alignment.topCenter,
             animationType: AnimationType.slideInFromTop,
           ).show(context);
         } else if (state.errorMessage != null) {
           MotionToast.error(
-            title: const Text('Sale Failed', style: TextStyle(fontWeight: FontWeight.bold)),
+            title: const Text('Sale Failed',
+                style: TextStyle(fontWeight: FontWeight.bold)),
             description: Text(state.errorMessage!),
             toastAlignment: Alignment.topCenter,
             animationType: AnimationType.slideInFromTop,
@@ -50,7 +54,9 @@ class _POSPageState extends State<POSPage> {
             children: [
               Image.asset('assets/images/pharmapos_logo.png', height: 40),
               const SizedBox(width: 10),
-              const Text('PharmaPOS', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.blue)),
+              const Text('PharmaPOS',
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold, color: Colors.blue)),
             ],
           ),
           actions: [
@@ -74,7 +80,8 @@ class _POSPageState extends State<POSPage> {
                       decoration: InputDecoration(
                         hintText: 'Search Medicine or Generic...',
                         prefixIcon: const Icon(Icons.search),
-                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10)),
                         suffixIcon: IconButton(
                           icon: const Icon(Icons.clear),
                           onPressed: () {
@@ -92,12 +99,14 @@ class _POSPageState extends State<POSPage> {
                     child: BlocBuilder<InventoryCubit, InventoryState>(
                       builder: (context, state) {
                         if (state is InventoryLoading) {
-                          return const Center(child: CircularProgressIndicator());
+                          return const Center(
+                              child: CircularProgressIndicator());
                         }
                         if (state is InventoryLoaded) {
                           return GridView.builder(
                             padding: const EdgeInsets.all(8),
-                            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: isDesktop ? 4 : 2,
                               childAspectRatio: 0.8,
                               crossAxisSpacing: 10,
@@ -107,34 +116,58 @@ class _POSPageState extends State<POSPage> {
                             itemBuilder: (context, index) {
                               final product = state.products[index];
                               return Card(
-                                color: product.stockQuantity <= 5 ? Colors.red[50] : null,
+                                color: product.stockQuantity <= 5
+                                    ? Colors.red[50]
+                                    : null,
                                 child: InkWell(
                                   onTap: () {
                                     if (product.stockQuantity > 0) {
-                                      context.read<CartCubit>().addToCart(product);
+                                      context
+                                          .read<CartCubit>()
+                                          .addToCart(product);
                                     } else {
                                       MotionToast.warning(
                                         title: const Text('Out of Stock'),
-                                        description: const Text('This product is currently unavailable.'),
+                                        description: const Text(
+                                            'This product is currently unavailable.'),
                                       ).show(context);
                                     }
                                   },
                                   child: Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
-                                        Text(product.name, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
-                                        Text(product.genericName ?? '', style: const TextStyle(fontSize: 11, color: Colors.grey)),
+                                        Text(product.name,
+                                            style: const TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 14)),
+                                        Text(product.genericName ?? '',
+                                            style: const TextStyle(
+                                                fontSize: 11,
+                                                color: Colors.grey)),
                                         const Spacer(),
-                                        Text('৳${product.price}', style: const TextStyle(color: Colors.blue, fontWeight: FontWeight.bold)),
+                                        Text('৳${product.price}',
+                                            style: const TextStyle(
+                                                color: Colors.blue,
+                                                fontWeight: FontWeight.bold)),
                                         Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
                                           children: [
-                                            Text('Stock: ${product.stockQuantity}', 
-                                                style: TextStyle(fontSize: 10, color: product.stockQuantity <= 5 ? Colors.red : Colors.black54)),
+                                            Text(
+                                                'Stock: ${product.stockQuantity}',
+                                                style: TextStyle(
+                                                    fontSize: 10,
+                                                    color:
+                                                        product.stockQuantity <=
+                                                                5
+                                                            ? Colors.red
+                                                            : Colors.black54)),
                                             if (product.stockQuantity <= 5)
-                                              const Icon(Icons.warning, size: 12, color: Colors.red),
+                                              const Icon(Icons.warning,
+                                                  size: 12, color: Colors.red),
                                           ],
                                         ),
                                       ],
@@ -145,7 +178,8 @@ class _POSPageState extends State<POSPage> {
                             },
                           );
                         }
-                        return const Center(child: Text('Error loading products'));
+                        return const Center(
+                            child: Text('Error loading products'));
                       },
                     ),
                   ),
@@ -154,8 +188,7 @@ class _POSPageState extends State<POSPage> {
             ),
 
             // Right Side: Billing Cart
-            if (isDesktop)
-              VerticalDivider(width: 1, color: Colors.grey[300]),
+            if (isDesktop) VerticalDivider(width: 1, color: Colors.grey[300]),
             if (isDesktop)
               SizedBox(
                 width: 400,
@@ -169,11 +202,14 @@ class _POSPageState extends State<POSPage> {
                   showModalBottomSheet(
                     context: context,
                     isScrollControlled: true,
-                    builder: (_) => SizedBox(height: MediaQuery.of(context).size.height * 0.8, child: _CartPanel()),
+                    builder: (_) => SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.8,
+                        child: _CartPanel()),
                   );
                 },
                 label: BlocBuilder<CartCubit, CartState>(
-                  builder: (context, state) => Text('Cart (${state.items.length}) - ৳${state.totalAmount}'),
+                  builder: (context, state) => Text(
+                      'Cart (${state.items.length}) - ৳${state.totalAmount}'),
                 ),
                 icon: const Icon(Icons.shopping_cart),
               )
@@ -196,17 +232,22 @@ class _CartPanel extends StatelessWidget {
                 children: [
                   Icon(Icons.receipt_long, color: Colors.blue),
                   SizedBox(width: 10),
-                  Text('Billing Details', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                  Text('Billing Details',
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
                 ],
               ),
             ),
             Expanded(
               child: state.items.isEmpty
-                  ? const Center(child: Column(
+                  ? const Center(
+                      child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(Icons.shopping_basket_outlined, size: 50, color: Colors.grey),
-                        Text('Your cart is empty', style: TextStyle(color: Colors.grey)),
+                        Icon(Icons.shopping_basket_outlined,
+                            size: 50, color: Colors.grey),
+                        Text('Your cart is empty',
+                            style: TextStyle(color: Colors.grey)),
                       ],
                     ))
                   : ListView.builder(
@@ -214,19 +255,33 @@ class _CartPanel extends StatelessWidget {
                       itemBuilder: (context, index) {
                         final item = state.items[index];
                         return ListTile(
-                          title: Text(item.product.name, style: const TextStyle(fontWeight: FontWeight.w600)),
-                          subtitle: Text('৳${item.product.price} x ${item.quantity}'),
+                          title: Text(item.product.name,
+                              style:
+                                  const TextStyle(fontWeight: FontWeight.w600)),
+                          subtitle:
+                              Text('৳${item.product.price} x ${item.quantity}'),
                           trailing: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               IconButton(
-                                icon: const Icon(Icons.remove_circle, color: Colors.redAccent),
-                                onPressed: () => context.read<CartCubit>().updateQuantity(item.product.id, item.quantity - 1),
+                                icon: const Icon(Icons.remove_circle,
+                                    color: Colors.redAccent),
+                                onPressed: () => context
+                                    .read<CartCubit>()
+                                    .updateQuantity(
+                                        item.product.id, item.quantity - 1),
                               ),
-                              Text('${item.quantity}', style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                              Text('${item.quantity}',
+                                  style: const TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold)),
                               IconButton(
-                                icon: const Icon(Icons.add_circle, color: Colors.green),
-                                onPressed: () => context.read<CartCubit>().updateQuantity(item.product.id, item.quantity + 1),
+                                icon: const Icon(Icons.add_circle,
+                                    color: Colors.green),
+                                onPressed: () => context
+                                    .read<CartCubit>()
+                                    .updateQuantity(
+                                        item.product.id, item.quantity + 1),
                               ),
                             ],
                           ),
@@ -238,16 +293,22 @@ class _CartPanel extends StatelessWidget {
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
                 color: Colors.blue.withValues(alpha: 0.05),
-                border: const Border(top: BorderSide(color: Colors.blue, width: 0.5)),
+                border: const Border(
+                    top: BorderSide(color: Colors.blue, width: 0.5)),
               ),
               child: Column(
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text('Total Payable:', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                      const Text('Total Payable:',
+                          style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold)),
                       Text('৳${state.totalAmount.toStringAsFixed(2)}',
-                          style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.blue)),
+                          style: const TextStyle(
+                              fontSize: 22,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.blue)),
                     ],
                   ),
                   const SizedBox(height: 16),
@@ -258,20 +319,30 @@ class _CartPanel extends StatelessWidget {
                         backgroundColor: Colors.blue,
                         foregroundColor: Colors.white,
                         padding: const EdgeInsets.symmetric(vertical: 18),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12)),
                         elevation: 5,
                       ),
-                      onPressed: state.items.isEmpty || state.isSubmitting ? null : () => context.read<CartCubit>().checkout(),
+                      onPressed: state.items.isEmpty || state.isSubmitting
+                          ? null
+                          : () => context.read<CartCubit>().checkout(),
                       child: state.isSubmitting
                           ? const Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                SizedBox(width: 20, height: 20, child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2)),
+                                SizedBox(
+                                    width: 20,
+                                    height: 20,
+                                    child: CircularProgressIndicator(
+                                        color: Colors.white, strokeWidth: 2)),
                                 SizedBox(width: 10),
                                 Text('Processing Sale...'),
                               ],
                             )
-                          : const Text('COMPLETE SALE (F12)', style: TextStyle(fontWeight: FontWeight.bold, letterSpacing: 1.2)),
+                          : const Text('COMPLETE SALE (F12)',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  letterSpacing: 1.2)),
                     ),
                   ),
                 ],

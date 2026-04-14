@@ -1,8 +1,8 @@
-import 'package:pharma_pos/core/database/local_db.dart';
-import 'package:pharma_pos/core/utils/app_logger.dart';
-import 'package:pharma_pos/features/pos/data/datasources/remote/sales_remote_data_source.dart';
-import 'package:pharma_pos/features/pos/domain/entities/cart_item.dart';
-import 'package:pharma_pos/features/inventory/domain/entities/product.dart';
+import '../../features/inventory/domain/entities/product.dart';
+import '../../features/pos/data/datasources/remote/sales_remote_data_source.dart';
+import '../../features/pos/domain/entities/cart_item.dart';
+import '../database/local_db.dart';
+import '../utils/app_logger.dart';
 
 class SyncService {
   final AppDatabase _db;
@@ -15,15 +15,18 @@ class SyncService {
       final unsyncedSales = await _db.getUnsyncedSales();
       if (unsyncedSales.isEmpty) return;
 
-      AppLogger.info('Found ${unsyncedSales.length} unsynced sales. Starting sync...');
+      AppLogger.info(
+          'Found ${unsyncedSales.length} unsynced sales. Starting sync...');
 
       for (final sale in unsyncedSales) {
         final items = await _db.getSaleItems(sale.id);
-        
+
         // Convert local items to CartItems for remote source
         final cartItems = <CartItem>[];
         for (final item in items) {
-          final product = await (_db.select(_db.localProducts)..where((t) => t.id.equals(item.productId))).getSingle();
+          final product = await (_db.select(_db.localProducts)
+                ..where((t) => t.id.equals(item.productId)))
+              .getSingle();
           cartItems.add(CartItem(
             product: Product(
               id: product.id,

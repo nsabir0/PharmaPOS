@@ -1,8 +1,9 @@
 import 'package:fpdart/fpdart.dart';
-import 'package:pharma_pos/core/error/failures.dart';
-import 'package:pharma_pos/features/pos/data/datasources/remote/sales_remote_data_source.dart';
-import 'package:pharma_pos/features/pos/domain/entities/cart_item.dart';
-import 'package:pharma_pos/features/pos/domain/repositories/sales_repository.dart';
+
+import '../../../../core/error/failures.dart';
+import '../../domain/entities/cart_item.dart';
+import '../../domain/repositories/sales_repository.dart';
+import '../datasources/remote/sales_remote_data_source.dart';
 
 class SalesRepositoryImpl implements SalesRepository {
   final SalesRemoteDataSource remoteDataSource;

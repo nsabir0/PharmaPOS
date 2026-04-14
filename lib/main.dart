@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pharma_pos/core/theme/app_theme.dart';
-import 'package:pharma_pos/features/inventory/presentation/logic/inventory_cubit.dart';
-import 'package:pharma_pos/features/pos/presentation/logic/cart_cubit.dart';
-import 'package:pharma_pos/features/pos/presentation/pages/pos_page.dart';
-import 'package:pharma_pos/init_dependencies.dart';
+
+import 'core/theme/app_theme.dart';
+import 'features/inventory/presentation/logic/inventory_cubit.dart';
+import 'features/pos/presentation/logic/cart_cubit.dart';
+import 'features/pos/presentation/pages/pos_page.dart';
+import 'init_dependencies.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
