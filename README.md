@@ -39,7 +39,7 @@ PharmaPOS follows a strict **Clean Architecture** pattern divided into three lay
 
 ## 🔄 Sync Mechanism (Offline-First)
 
-1. **Local Transaction**: Sale is saved to Drift DB -> Stock is deducted immediately in the local database.
+1. **Local Transaction**: Sale is saved to Drift DB → Stock is deducted immediately in the local database.
 2. **UI Feedback**: Success toast is shown; Inventory UI refreshes instantly from the local source.
 3. **Background Sync**: The app attempts to push the sale to the PostgreSQL server.
 4. **Finalization**: Upon server success, the local record is marked as `isSynced: true`.
@@ -55,7 +55,7 @@ PharmaPOS follows a strict **Clean Architecture** pattern divided into three lay
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/your-username/PharmaPOS.git
+   git clone https://github.com/nsabir0/PharmaPOS.git
    cd PharmaPOS
    ```
 
