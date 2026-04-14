@@ -1,9 +1,10 @@
 import 'package:fpdart/fpdart.dart';
-import 'package:pharma_pos/core/database/local_db.dart';
-import 'package:pharma_pos/core/error/failures.dart';
-import 'package:pharma_pos/features/inventory/data/datasources/remote/inventory_remote_data_source.dart';
-import 'package:pharma_pos/features/inventory/domain/entities/product.dart';
-import 'package:pharma_pos/features/inventory/domain/repositories/inventory_repository.dart';
+
+import '../../../../core/database/local_db.dart';
+import '../../../../core/error/failures.dart';
+import '../../domain/entities/product.dart';
+import '../../domain/repositories/inventory_repository.dart';
+import '../datasources/remote/inventory_remote_data_source.dart';
 
 class InventoryRepositoryImpl implements InventoryRepository {
   final InventoryRemoteDataSource remoteDataSource;

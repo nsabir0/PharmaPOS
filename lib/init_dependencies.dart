@@ -1,17 +1,19 @@
 import 'package:get_it/get_it.dart';
 import 'package:dio/dio.dart';
-import 'package:pharma_pos/core/database/local_db.dart';
-import 'package:pharma_pos/core/network/api_client.dart';
-import 'package:pharma_pos/core/services/sync_service.dart';
-import 'package:pharma_pos/features/inventory/data/datasources/remote/inventory_remote_data_source.dart';
-import 'package:pharma_pos/features/inventory/data/repositories/inventory_repository_impl.dart';
-import 'package:pharma_pos/features/inventory/domain/repositories/inventory_repository.dart';
-import 'package:pharma_pos/features/inventory/domain/usecases/get_products.dart';
-import 'package:pharma_pos/features/inventory/presentation/logic/inventory_cubit.dart';
-import 'package:pharma_pos/features/pos/data/datasources/remote/sales_remote_data_source.dart';
-import 'package:pharma_pos/features/pos/data/repositories/sales_repository_impl.dart';
-import 'package:pharma_pos/features/pos/domain/repositories/sales_repository.dart';
-import 'package:pharma_pos/features/pos/presentation/logic/cart_cubit.dart';
+
+import 'core/database/local_db.dart';
+import 'core/network/api_client.dart';
+import 'core/services/sync_service.dart';
+import 'core/theme/theme_cubit.dart';
+import 'features/inventory/data/datasources/remote/inventory_remote_data_source.dart';
+import 'features/inventory/data/repositories/inventory_repository_impl.dart';
+import 'features/inventory/domain/repositories/inventory_repository.dart';
+import 'features/inventory/domain/usecases/get_products.dart';
+import 'features/inventory/presentation/logic/inventory_cubit.dart';
+import 'features/pos/data/datasources/remote/sales_remote_data_source.dart';
+import 'features/pos/data/repositories/sales_repository_impl.dart';
+import 'features/pos/domain/repositories/sales_repository.dart';
+import 'features/pos/presentation/logic/cart_cubit.dart';
 
 final serviceLocator = GetIt.instance;
 
@@ -22,6 +24,7 @@ Future<void> initDependencies() async {
 }
 
 void _initCore() {
+  serviceLocator.registerLazySingleton(() => ThemeCubit());
   serviceLocator.registerLazySingleton(() => Dio());
   serviceLocator.registerLazySingleton(() => ApiClient(serviceLocator<Dio>()));
   

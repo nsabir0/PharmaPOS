@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
-import 'package:pharma_pos/features/inventory/domain/entities/product.dart';
+
+import '../../domain/entities/product.dart';
 
 abstract class InventoryState extends Equatable {
   const InventoryState();

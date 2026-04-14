@@ -2,24 +2,37 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AppTheme {
-  static OutlineInputBorder _border([Color color = Colors.grey]) => OutlineInputBorder(
-        borderSide: BorderSide(color: color, width: 1.5),
-        borderRadius: BorderRadius.circular(10),
-      );
+  // Dark Palette (Pixel Perfect to image)
+  static const darkScaffoldBg = Color(0xFF000000);
+  static const darkSidebarBg = Color(0xFF111111);
+  static const darkCardBg = Color(0xFF1A1A1A);
+  static const darkProductCardBg = Color(0xFF1E1E1E);
+  static const darkTextGrey = Color(0xFF666666);
 
-  static final lightThemeMode = ThemeData.light().copyWith(
-    scaffoldBackgroundColor: Colors.white,
-    appBarTheme: const AppBarTheme(
-      backgroundColor: Colors.white,
-      elevation: 0,
-    ),
-    inputDecorationTheme: InputDecorationTheme(
-      contentPadding: const EdgeInsets.all(20),
-      enabledBorder: _border(),
-      focusedBorder: _border(Colors.blue),
-      errorBorder: _border(Colors.red),
-      focusedErrorBorder: _border(Colors.redAccent),
-    ),
-    textTheme: GoogleFonts.poppinsTextTheme(),
-  );
+  static ThemeData getDarkTheme() {
+    return ThemeData.dark().copyWith(
+      scaffoldBackgroundColor: darkScaffoldBg,
+      cardColor: darkCardBg,
+      primaryColor: Colors.white,
+      dividerColor: Color(0xFF222222),
+      appBarTheme: const AppBarTheme(backgroundColor: darkScaffoldBg, elevation: 0),
+      textTheme: GoogleFonts.poppinsTextTheme(ThemeData.dark().textTheme),
+    );
+  }
+
+  static ThemeData getLightTheme() {
+    return ThemeData.light().copyWith(
+      scaffoldBackgroundColor: Color(0xFFF5F5F5),
+      cardColor: Colors.white,
+      primaryColor: Colors.blue,
+      dividerColor: Colors.grey[300],
+      appBarTheme: const AppBarTheme(
+        backgroundColor: Colors.white,
+        elevation: 0,
+        iconTheme: IconThemeData(color: Colors.black),
+        titleTextStyle: TextStyle(color: Colors.black, fontSize: 20),
+      ),
+      textTheme: GoogleFonts.poppinsTextTheme(ThemeData.light().textTheme),
+    );
+  }
 }

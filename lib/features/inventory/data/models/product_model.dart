@@ -1,4 +1,4 @@
-import 'package:pharma_pos/features/inventory/domain/entities/product.dart';
+import '../../domain/entities/product.dart';
 
 class ProductModel extends Product {
   const ProductModel({

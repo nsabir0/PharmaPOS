@@ -1,5 +1,5 @@
-import 'package:pharma_pos/core/network/api_client.dart';
-import 'package:pharma_pos/features/inventory/data/models/product_model.dart';
+import '../../../../../core/network/api_client.dart';
+import '../../models/product_model.dart';
 
 abstract interface class InventoryRemoteDataSource {
   Future<List<ProductModel>> getProducts();

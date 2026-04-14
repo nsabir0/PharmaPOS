@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pharma_pos/features/inventory/presentation/logic/inventory_cubit.dart';
-import 'package:pharma_pos/features/inventory/presentation/logic/inventory_state.dart';
+
+import '../logic/inventory_cubit.dart';
+import '../logic/inventory_state.dart';
 
 class InventoryPage extends StatefulWidget {
   const InventoryPage({super.key});

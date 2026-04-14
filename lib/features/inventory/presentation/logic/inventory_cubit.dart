@@ -1,9 +1,10 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pharma_pos/core/usecase/usecase.dart';
-import 'package:pharma_pos/features/inventory/domain/entities/product.dart';
-import 'package:pharma_pos/features/inventory/domain/usecases/get_products.dart';
+
+import '../../../../core/usecase/usecase.dart';
+import '../../../../core/utils/app_logger.dart';
+import '../../domain/entities/product.dart';
+import '../../domain/usecases/get_products.dart';
 import 'inventory_state.dart';
-import 'package:pharma_pos/core/utils/app_logger.dart';
 
 class InventoryCubit extends Cubit<InventoryState> {
   final GetProductsUseCase _getProductsUseCase;
