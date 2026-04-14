@@ -9,6 +9,7 @@ environment:
 dependencies:
   dart_frog: ^1.2.6
   postgres: ^3.5.9
+  logger: ^2.7.0
 
 dev_dependencies:
   mocktail: ^1.0.4

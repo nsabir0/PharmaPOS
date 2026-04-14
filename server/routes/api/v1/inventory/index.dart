@@ -1,7 +1,9 @@
 import 'dart:io';
 import 'package:dart_frog/dart_frog.dart';
-import 'package:postgres/postgres.dart';
+import 'package:logger/logger.dart';
 import '../../../../src/database/db_client.dart';
+
+final _logger = Logger();
 
 /// GET /api/v1/inventory
 /// Fetches all products from the PostgreSQL database.
@@ -39,9 +41,9 @@ Future<Response> onRequest(RequestContext context) async {
         'data': products,
       },
     );
-  } catch (e) {
+  } catch (e, stackTrace) {
     // 5. Professional Error Handling
-    print('Inventory API Error: $e'); // Replace with a proper logger for production
+    _logger.e('Inventory API Error: $e', error: e, stackTrace: stackTrace);
     return Response.json(
       statusCode: HttpStatus.internalServerError,
       body: {
