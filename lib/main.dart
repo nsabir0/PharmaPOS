@@ -19,14 +19,15 @@ void main() async {
     WindowOptions windowOptions = const WindowOptions(
       size: Size(1280, 800),
       center: true,
-      backgroundColor: Colors.transparent,
+      fullScreen: false,
       skipTaskbar: false,
+      backgroundColor: Colors.transparent,
       titleBarStyle: TitleBarStyle.normal,
-      fullScreen: true,
     );
     windowManager.waitUntilReadyToShow(windowOptions, () async {
       await windowManager.show();
       await windowManager.focus();
+      await windowManager.maximize();
     });
   }
 
